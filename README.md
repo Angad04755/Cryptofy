@@ -10,6 +10,7 @@ A responsive and performance-focused web application that displays real-time cry
 - Search and filter functionality for quick coin lookup
 - Responsive UI optimized for desktop and mobile devices
 - Efficient data fetching and state handling for smooth updates
+- Implemented secure authentication and authorization using Clerk, enabling user sign-in.
 
 ---
 
