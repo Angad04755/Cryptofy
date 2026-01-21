@@ -1,7 +1,8 @@
+import HoldingTable from "@/app/components/prices/HoldingTable";
 const Prices = () => {
     return (
         <>
-        Prices
+        <HoldingTable/>
         </>
     )
 }

@@ -52,7 +52,7 @@ const Hero = () => {
   }, [controls]);
 
   return (
-    <div className="relative w-full min-h-screen bg-black overflow-hidden flex justify-center">
+    <div className="relative w-full min-h-screen bg-black flex justify-center">
       {/* Spark Particles */}
       {particles.map((p, i) => (
         <motion.div
