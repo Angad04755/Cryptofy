@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPrices } from "@/app/utilities/PricesApi";
-import { Price } from "@/app/utilities/PricesType";
+import { getPrices } from "@/src/utilities/PricesApi";
+import { Price } from "@/src/utilities/PricesType";
+import Image from "next/image";
 
 const HoldingTable = () => {
   const [prices, setPrices] = useState<Price[]>([]);
@@ -59,10 +60,10 @@ const HoldingTable = () => {
                     <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center">
 
                       <div className="flex items-center gap-3">
-                        <img
+                        <Image
                           src={price.image}
                           alt={price.name}
-                          className="h-6 w-6"
+                          width={25} height={25}
                         />
                         <div>
                           <p className="font-medium text-white">

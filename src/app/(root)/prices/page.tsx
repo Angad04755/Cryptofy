@@ -1,4 +1,4 @@
-import HoldingTable from "@/app/components/prices/HoldingTable";
+import HoldingTable from "@/src/components/prices/HoldingTable";
 const Prices = () => {
     return (
         <>
