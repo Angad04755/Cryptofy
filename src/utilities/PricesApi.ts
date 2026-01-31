@@ -9,3 +9,13 @@ export async function getPrices () {
         console.error(error);
     }
 }
+
+export async function searchPrices (query: string) {
+    try {
+        const res = await axios.get(`https://api.coingecko.com/api/v3/search?query=${query}`);
+        return res.data.coins;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
