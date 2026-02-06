@@ -2,6 +2,7 @@
 import { motion, useAnimationControls } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Button from "../ui/Button";
 interface Particle {
   size: number;
   top: number;
@@ -89,9 +90,7 @@ const Hero = () => {
           Monitor prices, analyze trends, stay ahead of the market.
         </p>
         <div className="flex justify-center translate-y-5 md:translate-y-25" onClick={() => router.push("/prices")}>
-        <button className="flex items-center gap-1 bg-white text-black px-2 py-1 text-lg rounded-xl
-            hover:scale-110 hover:bg-black hover:text-white
-            transition-all duration-300 active:scale-100">View prices</button>
+        <Button text="View prices"/>
         </div>
       </motion.div>
     </div>
