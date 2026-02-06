@@ -5,7 +5,7 @@ import { useState } from "react";
 import Logo from "../../../public/images/Logo.png";
 import Button from "../ui/Button";
 import { useRouter } from "next/navigation";
-
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 const options = [
   { label: "INR", value: "inr" },
   { label: "USD", value: "usd" },
@@ -14,6 +14,7 @@ const options = [
 
 const Navbar = () => {
   const [selected, setSelected] = useState("inr");
+  const router = useRouter();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b-5 border-white bg-white">
@@ -26,11 +27,16 @@ const Navbar = () => {
             CRYPTOFY
           </span>
         </div>
+        <SignedIn>
+          <UserButton/>
+        </SignedIn>
 
         {/* Right: Action */}
-        <div>
-          <Button text="Sign up" />
+        <SignedOut>
+        <div onClick={() => router.push("/sign-in")}>
+          <Button text="Sign In"/>
         </div>
+        </SignedOut>
 
       </div>
     </nav>

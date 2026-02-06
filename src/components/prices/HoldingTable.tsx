@@ -54,63 +54,69 @@ const HoldingTable = () => {
         <div className="px-2 md:px-4 py-2 overflow-x-auto">
           <table className="min-w-full border-collapse text-gray-300 text-sm md:text-base">
             <tbody>
-              {prices.map((price) => (
-                <tr
-                  key={price.id}
-                  className="border-b border-gray-700 transition hover:bg-gray-800"
-                >
-                  <td className="px-2 md:px-4 py-3">
-                    <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center gap-2">
+              {prices.map((price) => {
+                const isUp = price.price_change_percentage_24h >= 0;
 
-                      {/* Coin */}
-                      <div className="flex items-center gap-3">
-                        <Image
-                          src={price.image}
-                          alt={price.name}
-                          width={25}
-                          height={25}
-                          className="shrink-0"
-                        />
-                        <div>
-                          <p className="font-medium text-white">
-                            {price.name}
-                          </p>
-                          <p className="text-xs uppercase text-gray-400">
-                            {price.symbol}
-                          </p>
+                return (
+                  <tr
+                    key={price.id}
+                    className="border-b border-gray-700 transition hover:bg-gray-800"
+                  >
+                    <td className="px-2 md:px-4 py-3">
+                      <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center gap-2">
+
+                        {/* Coin */}
+                        <div className="flex items-center gap-3">
+                          <Image
+                            src={price.image}
+                            alt={price.name}
+                            width={25}
+                            height={25}
+                            className="shrink-0"
+                          />
+                          <div>
+                            <p className="font-medium text-white">
+                              {price.name}
+                            </p>
+                            <p className="text-xs uppercase text-gray-400">
+                              {price.symbol}
+                            </p>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Price */}
-                      <div className="text-right">
-                        ${price.current_price.toLocaleString()}
-                      </div>
+                        {/* Price */}
+                        <div className="text-right">
+                          ${price.current_price.toLocaleString()}
+                        </div>
 
-                      {/* 24h Change */}
-                      <div
-                        className={`text-right font-medium ${
-                          price.price_change_percentage_24h >= 0
-                            ? "text-green-500"
-                            : "text-red-500"
-                        }`}
-                      >
-                        {price.price_change_percentage_24h}%
-                      </div>
+                        {/* 24h Change (same column, arrow + 2 decimals) */}
+                        <div
+                          className={`text-right font-medium ${
+                            isUp ? "text-green-500" : "text-red-500"
+                          }`}
+                        >
+                          {isUp ? "▲" : "▼"}{" "}
+                          {Math.abs(
+                            price.price_change_percentage_24h
+                          ).toFixed(2)}
+                          %
+                        </div>
 
-                      {/* Market Cap (Tablet+) */}
-                      <div className="hidden md:block text-right">
-                        ${price.market_cap.toLocaleString()}
-                      </div>
+                        {/* Market Cap (Tablet+) */}
+                        <div className="hidden md:block text-right">
+                          ${price.market_cap.toLocaleString()}
+                        </div>
 
-                      {/* Volume (Desktop+) */}
-                      <div className="hidden lg:block text-right">
-                        ${price.total_volume.toLocaleString()}
-                      </div>
+                        {/* Volume (Desktop+) */}
+                        <div className="hidden lg:block text-right">
+                          ${price.total_volume.toLocaleString()}
+                        </div>
 
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
