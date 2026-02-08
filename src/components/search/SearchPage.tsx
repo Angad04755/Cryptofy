@@ -6,11 +6,11 @@ import SearchBox from "../ui/SearchBox";
 import { CoinSearchItem } from "@/src/utilities/PricesType";
 import {searchPrices} from "@/src/utilities/PricesApi";
 import { useSearchParams } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 const SearchPage = () => {
   const [coins, setCoins] = useState<CoinSearchItem[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
 
@@ -61,7 +61,7 @@ const SearchPage = () => {
               {coins.map((coin) => (
                 <tr
                   key={coin.id}
-                  className="border-b border-gray-700 hover:bg-gray-800 transition"
+                  className="border-b border-gray-700 hover:bg-gray-800 transition" onClick={() => router.push(`coin/${coin.id}`)}
                 >
                   <td className="px-4 py-3">
                     <div className="grid grid-cols-[3fr_1fr_1fr] items-center">

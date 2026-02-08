@@ -3,9 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Search } from "lucide-react";
-
+import { Debounce } from "@/src/utilities/Debounce";
+import { CoinSearchItem } from "@/src/utilities/PricesType";
 const SearchBox = () => {
   const [query, setQuery] = useState("");
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestons] = useState<CoinSearchItem[]>([]);
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -34,20 +37,21 @@ const SearchBox = () => {
           transition
         "
       >
-        <Search size={20} className="text-white" />
-
+        
         <input
           type="text"
           placeholder="Search coins..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="
+          className="min-w-full
             bg-transparent
             text-white
             placeholder-gray-400
-            outline-none
+            outline-none 
           "
         />
+        <Search size={30} color="white" className="" />
+
       </div>
     </form>
   );

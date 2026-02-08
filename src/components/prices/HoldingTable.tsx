@@ -5,11 +5,14 @@ import { getPrices } from "@/src/utilities/PricesApi";
 import { Price } from "@/src/utilities/PricesType";
 import Image from "next/image";
 import SearchBox from "../ui/SearchBox";
-
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 const HoldingTable = () => {
+  const router = useRouter();
+  const limit = 20;
   const [prices, setPrices] = useState<Price[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [page, setPage] = useState(1);
   useEffect(() => {
     const getPricesList = async () => {
       try {
@@ -24,6 +27,20 @@ const HoldingTable = () => {
 
     getPricesList();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    })
+  }, [page]);
+
+  const totalPages = Math.ceil(prices.length / limit);
+  const start = (page - 1) * limit;
+  const end = start + limit;
+
+  const allprices = prices.slice(start, end);
+
 
   if (loading) {
     return (
@@ -54,13 +71,13 @@ const HoldingTable = () => {
         <div className="px-2 md:px-4 py-2 overflow-x-auto">
           <table className="min-w-full border-collapse text-gray-300 text-sm md:text-base">
             <tbody>
-              {prices.map((price) => {
+              {allprices.map((price) => {
                 const isUp = price.price_change_percentage_24h >= 0;
 
                 return (
                   <tr
                     key={price.id}
-                    className="border-b border-gray-700 transition hover:bg-gray-800"
+                    className="border-b border-gray-700 transition hover:bg-gray-800" onClick={() => router.push(`coin/${price.id}`)}
                   >
                     <td className="px-2 md:px-4 py-3">
                       <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center gap-2">
@@ -120,6 +137,53 @@ const HoldingTable = () => {
             </tbody>
           </table>
         </div>
+        <div className="flex items-center justify-center gap-10 pb-5">
+  <button
+    aria-label="Previous page"
+    disabled={page === 1}
+    onClick={() => setPage(page - 1)}
+    className="
+      inline-flex items-center gap-2
+      px-4 py-2
+      rounded-md
+      border border-gray-200
+      bg-white
+      text-sm font-medium text-gray-700
+      shadow-sm
+      transition-all duration-200
+      hover:bg-gray-50 hover:shadow
+      active:scale-95
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400
+      disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white
+    "
+  >
+    <ChevronLeft size={18} />
+    <span>Prev</span>
+  </button>
+
+  <button
+    aria-label="Next page"
+    disabled={page === totalPages}
+    onClick={() => setPage(page + 1)}
+    className="
+      inline-flex items-center gap-2
+      px-4 py-2
+      rounded-md
+      border border-gray-200
+      bg-white
+      text-sm font-medium text-gray-700
+      shadow-sm
+      transition-all duration-200
+      hover:bg-gray-50 hover:shadow
+      active:scale-95
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400
+      disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white
+    "
+  >
+    <span>Next</span>
+    <ChevronRight size={18} />
+  </button>
+</div>
 
       </div>
     </section>

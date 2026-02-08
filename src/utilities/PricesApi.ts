@@ -19,3 +19,23 @@ export async function searchPrices (query: string) {
         console.error(error);
     }
 }
+
+export async function getCoinbyId (id: string) {
+    try {
+        const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${id}`);
+        return res.data;
+    }
+    catch (error) {
+        console.error(error)
+    }
+}
+
+export async function getCoinMarketChart (id: string) {
+    try {
+        const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7`);
+        return res.data.prices;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
