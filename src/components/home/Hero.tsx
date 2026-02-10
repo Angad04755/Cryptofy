@@ -21,26 +21,27 @@ const Hero = () => {
 
   useEffect(() => {
     // Prevent scrolling on mount
-    document.body.style.overflow = 'hidden';
-    
+  
+    document.body.style.overflow="hidden";
     // Trigger text animation after hydration
     controls.start({
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.9,
+        duration: 0.5,
         ease: "easeOut",
       },
     });
+   
 
     // Generate particles on client only (hydration safe)
     const generatedParticles = Array.from({ length: NUM_PARTICLES }, () => ({
-      size: Math.random() * 3 + 1,
+      size: Math.random() * 4 + 1,
       top: Math.random() * 100,
       left: Math.random() * 100,
-      xOffset: Math.random() * 20 - 10,
-      yOffset: Math.random() * 20 - 10,
-      duration: 3 + Math.random() * 4,
+      xOffset: Math.random() * 30 - 10,
+      yOffset: Math.random() * 30 - 10,
+      duration: 2 + Math.random() * 4,
     }));
 
     setParticles(generatedParticles);
@@ -51,8 +52,15 @@ const Hero = () => {
     };
   }, [controls]);
 
+   useEffect(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "instant"
+      })
+    })
+
   return (
-    <div className="relative w-full min-h-screen bg-black flex justify-center">
+    <div className="relative min-w-full min-h-screen bg-black flex justify-center overflow-hidden">
       {/* Spark Particles */}
       {particles.map((p, i) => (
         <motion.div

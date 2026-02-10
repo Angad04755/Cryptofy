@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getPrices } from "@/src/utilities/PricesApi";
 import { Price } from "@/src/utilities/PricesType";
 import Image from "next/image";
-import SearchBox from "../ui/SearchBox";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 const HoldingTable = () => {
@@ -53,9 +52,6 @@ const HoldingTable = () => {
   return (
     <section>
       <div className="min-h-screen bg-gradient-to-b from-black to-gray-700">
-        <div className="sticky top-15 bg-black">
-  <SearchBox />
-</div>
 
         {/* 🔒 Sticky Header */}
         <div className="sticky top-37 z-50 bg-gray-900 text-gray-300 text-xs md:text-lg">

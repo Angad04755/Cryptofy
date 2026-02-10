@@ -67,9 +67,7 @@ const MobileHoldingTable = () => {
     <section>
       <div className="min-h-screen bg-gradient-to-b from-black to-gray-700">
 
-        <div className="sticky top-15 bg-black">
-  <SearchBox />
-</div>
+
 
         {/* Sticky Header */}
         <div className="sticky top-37 z-50 bg-gray-900 text-gray-300 text-xs md:text-lg">
