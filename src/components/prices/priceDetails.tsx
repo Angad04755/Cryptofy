@@ -79,7 +79,7 @@ const PriceDetails = ({ id }: Props) => {
   const isPositive = priceChange >= 0;
 
   return (
-    <section className="min-h-screen bg-black px-6 py-10">
+    <section className="min-h-screen bg-white text-black px-6 py-10">
       <motion.div
         initial="hidden"
         animate="visible"
@@ -102,7 +102,7 @@ const PriceDetails = ({ id }: Props) => {
           />
 
           <div>
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-3xl font-bold">
               {coin.name}
               <span className="ml-2 text-gray-400 uppercase text-sm">
                 ({coin.symbol})
@@ -121,7 +121,7 @@ const PriceDetails = ({ id }: Props) => {
           className="flex items-end justify-between flex-wrap gap-6"
         >
           <div>
-            <p className="text-4xl font-semibold text-white">
+            <p className="text-4xl font-semibold text-black">
               ${coin.market_data.current_price.usd.toLocaleString()}
             </p>
             <p
@@ -138,7 +138,7 @@ const PriceDetails = ({ id }: Props) => {
         <motion.div
           variants={fadeUp}
           transition={{ delay: 0.3 }}
-          className="bg-gray-900 rounded-xl p-5"
+          className="bg-black rounded-xl p-5"
         >
           <p className="text-gray-400 text-sm mb-3">Last 7 Days</p>
           <PriceChart prices={chartPrices} />
@@ -148,7 +148,7 @@ const PriceDetails = ({ id }: Props) => {
         <motion.div
           variants={fadeUp}
           transition={{ delay: 0.4 }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-6 bg-gray-900 rounded-xl p-6"
+          className="grid grid-cols-2 md:grid-cols-3 gap-6 bg-black rounded-xl p-6"
         >
           <Stat label="Market Cap" value={`$${coin.market_data.market_cap.usd.toLocaleString()}`} />
           <Stat label="FDV" value={`$${coin.market_data.fully_diluted_valuation.usd.toLocaleString()}`} />
@@ -163,7 +163,7 @@ const PriceDetails = ({ id }: Props) => {
           <motion.div
             variants={fadeUp}
             transition={{ delay: 0.5 }}
-            className="bg-gray-900 rounded-xl p-6"
+            className="bg-black rounded-xl p-6 shadow-lg"
           >
             <h2 className="text-lg font-semibold text-white mb-2">
               About {coin.name}

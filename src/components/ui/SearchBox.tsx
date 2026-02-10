@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { Debounce } from "@/src/utilities/Debounce";
 import { CoinSearchItem } from "@/src/utilities/PricesType";
+import { getPrices } from "@/src/utilities/PricesApi";
 const SearchBox = () => {
   const [query, setQuery] = useState("");
   const [value, setValue] = useState("");
@@ -29,7 +30,7 @@ const SearchBox = () => {
           min-w-full
           flex items-center gap-3
           rounded-xl
-          bg-gray-900
+          bg-black
           px-4 py-3
           border border-gray-700
           focus-within:ring-2
