@@ -70,7 +70,7 @@ const MobileHoldingTable = () => {
 
 
         {/* Sticky Header */}
-        <div className="sticky top-37 z-50 bg-gray-900 text-gray-300 text-xs md:text-lg">
+        <div className="sticky top-34 z-50 bg-gray-900 text-gray-300 text-xs md:text-lg">
           <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] px-4 md:px-10 py-3">
             <span>Coin</span>
             <span className="text-right">Price</span>
