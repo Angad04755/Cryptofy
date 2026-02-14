@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-
+import {SyncLoader} from "react-spinners"
 const HoldingTable = () => {
   const router = useRouter();
   const limit = 20;
@@ -42,10 +42,16 @@ const HoldingTable = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-white">
-        Loading...
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
+        <SyncLoader size={15} color="white"/>
       </div>
     );
+  }
+  const handlePrev = () => {
+    setPage(page - 1);
+  }
+  const handleNext = () => {
+    setPage(page + 1);
   }
 
   return (
@@ -54,7 +60,7 @@ const HoldingTable = () => {
       <div className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
 
         {/* 🔒 Sticky Header */}
-        <div className="sticky top-34 z-50 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
+        <div className="sticky top-16.5 z-50 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
           <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] px-4 md:px-10 py-3">
             <span className="text-left">Coin</span>
             <span className="text-right">Price</span>
@@ -73,14 +79,14 @@ const HoldingTable = () => {
         >
           <table className="min-w-full border-collapse text-gray-300 text-sm md:text-base">
             <tbody>
-              {allprices.map((price) => {
-                const isUp = price.price_change_percentage_24h >= 0;
+              {allprices.map((i) => {
+                const isUp = i.price_change_percentage_24h >= 0;
 
                 return (
                   <tr
-                    key={price.id}
+                    key={i.id}
                     className="border-b border-gray-700 transition hover:bg-white/5 cursor-pointer"
-                    onClick={() => router.push(`coin/${price.id}`)}
+                    onClick={() => {router.push(`coin/${i.id}`)}}
                   >
                     <td className="px-2 md:px-4 py-3">
                       <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center gap-2">
@@ -88,31 +94,31 @@ const HoldingTable = () => {
                         {/* Coin */}
                         <div className="flex items-center gap-3">
                           <Image
-                            src={price.image}
-                            alt={price.name}
+                            src={i.image}
+                            alt={i.name}
                             width={25}
                             height={25}
                             className="shrink-0"
                           />
                           <div>
-                            <p className="font-medium text-white">{price.name}</p>
-                            <p className="text-xs uppercase text-gray-400">{price.symbol}</p>
+                            <p className="font-medium text-white">{i.name}</p>
+                            <p className="text-xs uppercase text-gray-400">{i.symbol}</p>
                           </div>
                         </div>
 
                         {/* Price */}
-                        <div className="text-right">${price.current_price.toLocaleString()}</div>
+                        <div className="text-right">${i.current_price.toLocaleString()}</div>
 
                         {/* 24h Change */}
                         <div className={`text-right font-medium ${isUp ? "text-green-400" : "text-red-400"}`}>
-                          {isUp ? "▲" : "▼"} {Math.abs(price.price_change_percentage_24h).toFixed(2)}%
+                          {isUp ? "▲" : "▼"} {Math.abs(i.price_change_percentage_24h).toFixed(2)}%
                         </div>
 
                         {/* Market Cap (Tablet+) */}
-                        <div className="hidden md:block text-right">${price.market_cap.toLocaleString()}</div>
+                        <div className="hidden md:block text-right">${i.market_cap.toLocaleString()}</div>
 
                         {/* Volume (Desktop+) */}
-                        <div className="hidden lg:block text-right">${price.total_volume.toLocaleString()}</div>
+                        <div className="hidden lg:block text-right">${i.total_volume.toLocaleString()}</div>
 
                       </div>
                     </td>
@@ -128,7 +134,7 @@ const HoldingTable = () => {
           <button
             aria-label="Previous page"
             disabled={page === 1}
-            onClick={() => setPage(page - 1)}
+            onClick={handlePrev}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-200 bg-white text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 hover:shadow active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
           >
             <ChevronLeft size={18} />
@@ -138,7 +144,7 @@ const HoldingTable = () => {
           <button
             aria-label="Next page"
             disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
+            onClick={handleNext}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-200 bg-white text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 hover:shadow active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
           >
             <span>Next</span>

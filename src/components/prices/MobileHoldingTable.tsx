@@ -7,16 +7,17 @@ import Image from "next/image";
 import SearchBox from "../ui/SearchBox";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { SyncLoader } from "react-spinners";
 
-const LIMIT = 20;
 
 const MobileHoldingTable = () => {
+  const LIMIT = 20;
   const router = useRouter();
   const [prices, setPrices] = useState<Price[]>([]);
   const [visibleCount, setVisibleCount] = useState(LIMIT);
   const [loading, setLoading] = useState(true);
   const observerTarget = useRef<HTMLDivElement | null>(null);
-
+  
   // 1️⃣ Fetch prices
   useEffect(() => {
     const fetchPrices = async () => {
@@ -53,7 +54,7 @@ const MobileHoldingTable = () => {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white">
-        Loading...
+        <SyncLoader size={15} color="white"/>
       </div>
     );
   }
@@ -64,7 +65,7 @@ const MobileHoldingTable = () => {
       <div className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
 
         {/* Sticky Header */}
-        <div className="sticky top-34 z-50 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
+        <div className="sticky top-28.5 z-50 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
           <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] px-4 md:px-10 py-3">
             <span>Coin</span>
             <span className="text-right">Price</span>
@@ -83,13 +84,13 @@ const MobileHoldingTable = () => {
         >
           <table className="min-w-full border-collapse text-gray-300 text-sm md:text-base">
             <tbody>
-              {visiblePrices.map((price) => {
-                const isUp = price.price_change_percentage_24h >= 0;
+              {visiblePrices.map((i) => {
+                const isUp = i.price_change_percentage_24h >= 0;
                 return (
                   <tr
-                    key={price.id}
+                    key={i.id}
                     className="border-b border-gray-700 transition hover:bg-white/5 cursor-pointer"
-                    onClick={() => router.push(`coin/${price.id}`)}
+                    onClick={() => router.push(`coin/${i.id}`)}
                   >
                     <td className="px-2 md:px-4 py-3">
                       <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center gap-2">
@@ -97,30 +98,30 @@ const MobileHoldingTable = () => {
                         {/* Coin */}
                         <div className="flex items-center gap-3">
                           <Image
-                            src={price.image}
-                            alt={price.name}
+                            src={i.image}
+                            alt={i.name}
                             width={25}
                             height={25}
                           />
                           <div>
-                            <p className="font-medium text-white">{price.name}</p>
-                            <p className="text-xs uppercase text-gray-400">{price.symbol}</p>
+                            <p className="font-medium text-white">{i.name}</p>
+                            <p className="text-xs uppercase text-gray-400">{i.symbol}</p>
                           </div>
                         </div>
 
                         {/* Price */}
-                        <div className="text-right">${price.current_price.toLocaleString()}</div>
+                        <div className="text-right">${i.current_price.toLocaleString()}</div>
 
                         {/* 24h Change */}
                         <div className={`text-right font-medium ${isUp ? "text-green-400" : "text-red-400"}`}>
-                          {isUp ? "▲" : "▼"} {Math.abs(price.price_change_percentage_24h).toFixed(2)}%
+                          {isUp ? "▲" : "▼"} {Math.abs(i.price_change_percentage_24h).toFixed(2)}%
                         </div>
 
                         {/* Market Cap */}
-                        <div className="hidden md:block text-right">${price.market_cap.toLocaleString()}</div>
+                        <div className="hidden md:block text-right">${i.market_cap.toLocaleString()}</div>
 
                         {/* Volume */}
-                        <div className="hidden lg:block text-right">${price.total_volume.toLocaleString()}</div>
+                        <div className="hidden lg:block text-right">${i.total_volume.toLocaleString()}</div>
 
                       </div>
                     </td>
