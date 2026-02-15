@@ -44,8 +44,8 @@ const SearchPage = () => {
     <section>
       <div className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900">
         {/* Header */}
-        <div className="sticky top-28.5 md:top-16.5 z-50 bg-gray-900 text-gray-300 text-xs md:text-lg">
-          <div className="grid grid-cols-[3fr_1fr_1fr] px-4 md:px-10 py-3">
+        <div className="sticky top-28.5 md:top-16.5 z-10 bg-white text-black text-xs md:text-lg backdrop-blur-xl shadow-xl">
+          <div className="grid md:grid-cols-[3fr_1fr_1fr] grid-cols-[3fr_1fr_1fr] px-6 md:px-10 py-3">
             <span>Coin</span>
             <span className="text-right">Symbol</span>
             <span className="text-right">Rank</span>
@@ -59,7 +59,7 @@ const SearchPage = () => {
               {coins.map((coin) => (
                 <tr
                   key={coin.id}
-                  className="border-b border-gray-700 hover:bg-gray-800 transition" onClick={() => router.push(`coin/${coin.id}`)}
+                  className="border-b border-gray-700 hover:bg-white/5 transition cursor-pointer" onClick={() => router.push(`coin/${coin.id}`)}
                 >
                   <td className="px-4 py-3">
                     <div className="grid grid-cols-[3fr_1fr_1fr] items-center">
