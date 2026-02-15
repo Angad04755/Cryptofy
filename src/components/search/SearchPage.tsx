@@ -6,6 +6,7 @@ import { CoinSearchItem } from "@/src/utilities/PricesType";
 import {searchPrices} from "@/src/utilities/PricesApi";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { SyncLoader } from "react-spinners";
 const SearchPage = () => {
   const [coins, setCoins] = useState<CoinSearchItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,15 +34,15 @@ const SearchPage = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-white">
-        Loading...
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
+        <SyncLoader size={25} color="white"/>
       </div>
     );
   }
 
   return (
     <section>
-      <div className="min-h-screen bg-gradient-to-b from-black to-gray-700">
+      <div className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900">
         {/* Header */}
         <div className="sticky top-28.5 md:top-16.5 z-50 bg-gray-900 text-gray-300 text-xs md:text-lg">
           <div className="grid grid-cols-[3fr_1fr_1fr] px-4 md:px-10 py-3">

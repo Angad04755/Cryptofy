@@ -6,7 +6,7 @@ import { CoinById } from "@/src/utilities/PricesType";
 import { getCoinbyId, getCoinMarketChart } from "@/src/utilities/PricesApi";
 import PriceChart from "./PriceChart";
 import { motion } from "framer-motion";
-
+import { SyncLoader } from "react-spinners";
 interface Props {
   id: string;
 }
@@ -61,16 +61,16 @@ const PriceDetails = ({ id }: Props) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-white">
-        Loading...
+      <div className="min-h-screen bg-white flex items-center justify-center text-white">
+        <SyncLoader size={25} color="black"/>
       </div>
     );
   }
 
   if (!coin) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-gray-400">
-        Coin not found
+      <div className="min-h-screen bg-white flex items-center justify-center text-gray-400">
+        <SyncLoader size={25} color="black"/>
       </div>
     );
   }
@@ -120,12 +120,12 @@ const PriceDetails = ({ id }: Props) => {
           transition={{ delay: 0.2 }}
           className="flex items-end justify-between flex-wrap gap-6"
         >
-          <div>
-            <p className="text-4xl font-semibold text-black">
+          <div className="bg-black  rounded-xl px-4 py-2 w-fit">
+            <p className="text-4xl font-semibold text-white">
               ${coin.market_data.current_price.usd.toLocaleString()}
             </p>
             <p
-              className={`text-sm ${
+              className={`text-sm font-semibold ${
                 isPositive ? "text-green-400" : "text-red-400"
               }`}
             >

@@ -13,7 +13,7 @@ const SearchBox = () => {
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState<CoinSearchItem[]>([]);
   const [suggestions, setSuggestions] = useState<CoinSearchItem[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  // const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
     const fetchPrices = async () => {
@@ -28,7 +28,7 @@ const SearchBox = () => {
   }, []);
 
   useEffect(() => {
-    setShowSuggestions(false);
+    // setShowSuggestions(false);
     setSuggestions([]);
     if (pathname === "/") setQuery("");
   }, [pathname]);
@@ -36,7 +36,7 @@ const SearchBox = () => {
   useEffect(() => {
     if (!query.trim()) {
       setSuggestions([]);
-      setShowSuggestions(false);
+      // setShowSuggestions(false);
       return;
     }
 
@@ -47,14 +47,14 @@ const SearchBox = () => {
       .slice(0, 6);
 
     setSuggestions(filtered);
-    setShowSuggestions(true);
+    // setShowSuggestions(true);
   }, [query, products]);
 
   const goToSearch = (value: string) => {
     const trimmed = value.trim();
     if (!trimmed) return;
     setQuery(trimmed);
-    setShowSuggestions(false);
+    // setShowSuggestions(false);
     router.push(`/search?query=${trimmed}`);
   };
 
@@ -78,7 +78,7 @@ const SearchBox = () => {
         </div>
       </form>
 
-      {showSuggestions && suggestions.length > 0 && (
+      {suggestions.length > 0 && (
         <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
           {suggestions.map((i) => {
             return (
