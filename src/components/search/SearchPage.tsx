@@ -56,10 +56,11 @@ const SearchPage = () => {
         <div className="px-2 md:px-4 py-2 overflow-x-auto">
           <table className="w-full border-collapse text-gray-300 text-sm md:text-base">
             <tbody>
-              {coins.map((coin) => (
+              {coins.map((i) => {
+                return (
                 <tr
-                  key={coin.id}
-                  className="border-b border-gray-700 hover:bg-white/5 transition cursor-pointer" onClick={() => router.push(`coin/${coin.id}`)}
+                  key={i.id}
+                  className="border-b border-gray-700 hover:bg-white/5 transition cursor-pointer" onClick={() => router.push(`coin/${i.id}`)}
                 >
                   <td className="px-4 py-3">
                     <div className="grid grid-cols-[3fr_1fr_1fr] items-center">
@@ -69,24 +70,24 @@ const SearchPage = () => {
                         
                         
                         <span className="font-medium text-white">
-                          {coin.name}
+                          {i.name}
                         </span>
                       </div>
 
                       {/* Symbol */}
                       <div className="text-right uppercase text-gray-400">
-                        {coin.symbol}
+                        {i.symbol}
                       </div>
 
                       {/* Rank */}
                       <div className="text-right">
-                        {coin.market_cap_rank ?? "—"}
+                        {i.market_cap_rank ?? "—"}
                       </div>
 
                     </div>
                   </td>
                 </tr>
-              ))}
+              )})}
             </tbody>
           </table>
 
