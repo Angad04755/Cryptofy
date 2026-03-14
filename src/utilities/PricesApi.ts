@@ -1,11 +1,12 @@
 import axios from "axios";
 
-export async function getPrices () {
+export async function getPrices(currency: string) {
     try {
-        const res = await axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+        const res = await axios.get(
+            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=250&page=1&sparkline=false`
+        );
         return res.data;
-    }
-    catch (error) {
+    } catch (error) {
         console.error(error);
     }
 }

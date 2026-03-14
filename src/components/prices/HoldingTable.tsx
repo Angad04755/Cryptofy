@@ -8,18 +8,38 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {SyncLoader} from "react-spinners"
+import SelectableButton from "../ui/SelectableButton";
+
+const currency_options = [
+  { label: "USD", value: "usd" },
+  { label: "EUR", value: "eur" },
+  { label: "GBP", value: "gbp" },
+  { label: "JPY", value: "jpy" },
+  { label: "INR", value: "inr" },
+  { label: "BTC", value: "btc" },
+]
+
+const currency_symbols = new Map<string, string>([
+  ["usd", "$"],
+  ["eur", "€"],
+  ["gbp", "£"],
+  ["jpy", "¥"],
+  ["inr", "₹"],
+  ["btc", "₿"],
+])
 const HoldingTable = () => {
   const router = useRouter();
   const limit = 20;
   const [prices, setPrices] = useState<Price[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-
+  const [currency, setCurrency] = useState("usd");
+  const symbol = currency_symbols.get(currency);
   // Fetch prices
   useEffect(() => {
     const getPricesList = async () => {
       try {
-        const data = await getPrices();
+        const data = await getPrices(currency);
         setPrices(data);
       } catch (error) {
         console.error(error);
@@ -28,7 +48,7 @@ const HoldingTable = () => {
       }
     };
     getPricesList();
-  }, []);
+  }, [symbol]);
 
   // Scroll to top on page change
   useEffect(() => {
@@ -57,7 +77,10 @@ const HoldingTable = () => {
   return (
     <section>
       {/* Stylish animated background */}
-      <div className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
+      <article className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
+        <div className="flex justify-center items-center p-2">
+        <SelectableButton options={currency_options} selected={currency} onChange={(val) => setCurrency(val)}/>
+          </div>
 
         {/* 🔒 Sticky Header */}
         <div className="sticky top-16.5 z-10 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
@@ -98,7 +121,6 @@ const HoldingTable = () => {
                             alt={i.name}
                             width={25}
                             height={25}
-                            className="shrink-0"
                           />
                           <div>
                             <p className="font-medium text-white">{i.name}</p>
@@ -107,7 +129,7 @@ const HoldingTable = () => {
                         </div>
 
                         {/* Price */}
-                        <div className="text-right">${i.current_price.toLocaleString()}</div>
+                        <div className="text-right">{symbol}{i.current_price.toLocaleString()}</div>
 
                         {/* 24h Change */}
                         <div className={`text-right font-medium ${isUp ? "text-green-400" : "text-red-400"}`}>
@@ -115,10 +137,10 @@ const HoldingTable = () => {
                         </div>
 
                         {/* Market Cap (Tablet+) */}
-                        <div className="hidden md:block text-right">${i.market_cap.toLocaleString()}</div>
+                        <div className="hidden md:block text-right">{symbol}{i.market_cap.toLocaleString()}</div>
 
                         {/* Volume (Desktop+) */}
-                        <div className="hidden lg:block text-right">${i.total_volume.toLocaleString()}</div>
+                        <div className="hidden lg:block text-right">{symbol}{i.total_volume.toLocaleString()}</div>
 
                       </div>
                     </td>
@@ -152,7 +174,7 @@ const HoldingTable = () => {
           </button>
         </div>
 
-      </div>
+      </article>
     </section>
   );
 };

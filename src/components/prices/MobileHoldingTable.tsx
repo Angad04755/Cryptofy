@@ -16,13 +16,14 @@ const MobileHoldingTable = () => {
   const [prices, setPrices] = useState<Price[]>([]);
   const [visibleCount, setVisibleCount] = useState(LIMIT);
   const [loading, setLoading] = useState(true);
+  const [currency, setCurrency] = useState("usd")
   const observerTarget = useRef(null);
   
   // 1️⃣ Fetch prices
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const data = await getPrices();
+        const data = await getPrices(currency);
         setPrices(data);
       } catch (error) {
         console.error("Failed to fetch prices", error);
