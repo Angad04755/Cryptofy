@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import SearchBox from "../search/SearchBox";
 import { motion } from "framer-motion";
+import { Suspense } from "react";
 
 const Navbar = () => {
 
@@ -48,8 +49,9 @@ const Navbar = () => {
           {/* SearchBox Desktop */}
 
           <div className="hidden md:flex justify-center">
-
+            <Suspense>
             <SearchBox />
+            </Suspense>
 
           </div>
 
@@ -82,8 +84,9 @@ transition-all duration-300 active:scale-100" />
         {/* SearchBox Mobile */}
 
         <div className="mt-3 md:hidden">
-
+           <Suspense>
           <SearchBox />
+          </Suspense>
         </div>
 
       </div>

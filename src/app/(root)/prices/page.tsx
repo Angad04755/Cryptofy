@@ -7,17 +7,15 @@ const MobileHoldingTable = dynamic(() => import("../../../components/prices/Mobi
 function Prices() {
 return (
     <>
+    <Suspense>
     <div className="hidden md:block">
-        <Suspense>
             <HoldingTable/>
-        </Suspense>
     </div>
 
     <div className="block md:hidden">
-      <Suspense>
         <MobileHoldingTable/>
-      </Suspense>
     </div>
+    </Suspense>
     </>
 )
 }
