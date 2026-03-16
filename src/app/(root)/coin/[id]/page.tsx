@@ -1,12 +1,14 @@
-import PriceDetails from "@/src/components/prices/priceDetails";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
-interface props {
-    params: Promise<{id: string}>
-}
-const Page = async ({params}: props) => {
-    const {id} = await params
+const PriceDetails = dynamic(() => import("@/src/components/prices/priceDetails"))
+const Page =  () => {
     return (
-        <PriceDetails id={id}/>
+        <Suspense>
+        <Suspense>
+        <PriceDetails/>
+        </Suspense>
+        </Suspense>
     )
 }
 export default Page;

@@ -5,7 +5,7 @@ import Logo from "../../../public/images/Logo.png";
 import Button from "../ui/Button";
 import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import SearchBox from "../ui/SearchBox";
+import SearchBox from "../search/SearchBox";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
@@ -67,7 +67,9 @@ const Navbar = () => {
 
               <div onClick={() => router.push("/sign-in")}>
 
-                <Button text="Sign In" />
+                <Button text="Sign In" classname="flex items-center gap-1 bg-white text-black px-2 py-1 text-lg w-fit rounded-xl cursor-pointer
+hover:scale-110 hover:bg-black hover:text-white
+transition-all duration-300 active:scale-100" />
 
               </div>
 

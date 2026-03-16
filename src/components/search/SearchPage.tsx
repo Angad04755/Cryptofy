@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { CoinSearchItem } from "@/src/utilities/PricesType";
-import {searchPrices} from "@/src/utilities/PricesApi";
+import { CoinSearchItem } from "@/src/types/PricesType";
+import {searchPrices} from "@/src/apis/PricesApi";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { SyncLoader } from "react-spinners";

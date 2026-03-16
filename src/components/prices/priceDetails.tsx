@@ -2,24 +2,27 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { CoinById } from "@/src/utilities/PricesType";
-import { getCoinbyId, getCoinMarketChart } from "@/src/utilities/PricesApi";
+import { CoinById } from "@/src/types/PricesType";
+import { getCoinbyId, getCoinMarketChart } from "@/src/apis/PricesApi";
 import PriceChart from "./PriceChart";
 import { motion } from "framer-motion";
 import { SyncLoader } from "react-spinners";
-interface Props {
-  id: string;
-}
+import { useParams } from "next/navigation";
+
+
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-const PriceDetails = ({ id }: Props) => {
+const PriceDetails = () => {
   const [coin, setCoin] = useState<CoinById | null>(null);
   const [chartPrices, setChartPrices] = useState<number[][]>([]);
   const [loading, setLoading] = useState(true);
+
+  const params = useParams()
+  const id = params.id as string;
 
   useEffect(() => {
     const fetchPrice = async() => {

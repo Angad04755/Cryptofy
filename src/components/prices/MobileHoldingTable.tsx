@@ -1,38 +1,60 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getPrices } from "@/src/utilities/PricesApi";
-import { Price } from "@/src/utilities/PricesType";
+import { getPrices } from "@/src/apis/PricesApi";
+import { Price } from "@/src/types/PricesType";
 import Image from "next/image";
-import SearchBox from "../ui/SearchBox";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { SyncLoader } from "react-spinners";
-
+import { useQuery } from "@tanstack/react-query";
+import SelectableButton from "../ui/SelectableButton";
 
 const MobileHoldingTable = () => {
   const LIMIT = 20;
   const router = useRouter();
-  const [prices, setPrices] = useState<Price[]>([]);
   const [visibleCount, setVisibleCount] = useState(LIMIT);
-  const [loading, setLoading] = useState(true);
   const [currency, setCurrency] = useState("usd")
   const observerTarget = useRef(null);
-  
+
+  const currency_options = [
+  { label: "USD", value: "usd" },
+  { label: "EUR", value: "eur" },
+  { label: "GBP", value: "gbp" },
+  { label: "JPY", value: "jpy" },
+  { label: "INR", value: "inr" },
+  { label: "BTC", value: "btc" },
+]
+
+const currency_Symbol = new Map<String, String>([
+  ["usd", "$"],
+  ["eur", "€"],
+  ["gbp", "£"],
+  ["jpy", "¥"],
+  ["inr", "₹"],
+  ["btc", "₿"],
+])
+
+const symbol = currency_Symbol.get(currency);
+
+const {data = [], isLoading} = useQuery<Price[]>({
+  queryKey: ["prices", currency],
+  queryFn: () => getPrices(currency),
+})
   // 1️⃣ Fetch prices
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        const data = await getPrices(currency);
-        setPrices(data);
-      } catch (error) {
-        console.error("Failed to fetch prices", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPrices();
-  }, []);
+  // useEffect(() => {
+  //   const fetchPrices = async () => {
+  //     try {
+  //       const data = await getPrices(currency);
+  //       setPrices(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch prices", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchPrices();
+  // }, []);
 
   // 2️⃣ Intersection Observer for infinite scroll
   useEffect(() => {
@@ -40,19 +62,21 @@ const MobileHoldingTable = () => {
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        setVisibleCount((prev) => Math.min(prev + LIMIT, prices.length));
+        setVisibleCount((prev) => Math.min(prev + LIMIT, data.length));
       }
     });
 
     observer.observe(observerTarget.current);
 
     return () => observer.disconnect();
-  }, [prices]);
+  }, [data]);
 
-  const visiblePrices = prices.slice(0, visibleCount);
-  const hasMore = visibleCount < prices.length;
+  const visiblePrices = data.slice(0, visibleCount);
+  const hasMore = visibleCount < data.length;
 
-  if (loading) {
+  
+
+  if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
         <SyncLoader size={15} color="white"/>
@@ -63,10 +87,13 @@ const MobileHoldingTable = () => {
   return (
     <section>
       {/* Stylish futuristic background */}
-      <div className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
+      <article className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
+        <div className="flex justify-center items-center p-2 sticky top-28.5 backdrop-blur-lg"> 
+            <SelectableButton options={currency_options} onChange={(val) => setCurrency(val)} selected={currency}/>
+        </div>
 
         {/* Sticky Header */}
-        <div className="sticky top-28.5 z-10 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
+        <div className="sticky top-41 z-10 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
           <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] px-4 md:px-10 py-3">
             <span>Coin</span>
             <span className="text-right">Price</span>
@@ -111,7 +138,7 @@ const MobileHoldingTable = () => {
                         </div>
 
                         {/* Price */}
-                        <div className="text-right">${i.current_price.toLocaleString()}</div>
+                        <div className="text-right">{symbol}{i.current_price.toLocaleString()}</div>
 
                         {/* 24h Change */}
                         <div className={`text-right font-medium ${isUp ? "text-green-400" : "text-red-400"}`}>
@@ -119,10 +146,10 @@ const MobileHoldingTable = () => {
                         </div>
 
                         {/* Market Cap */}
-                        <div className="hidden md:block text-right">${i.market_cap.toLocaleString()}</div>
+                        <div className="hidden md:block text-right">{symbol}{i.market_cap.toLocaleString()}</div>
 
                         {/* Volume */}
-                        <div className="hidden lg:block text-right">${i.total_volume.toLocaleString()}</div>
+                        <div className="hidden lg:block text-right">{symbol}{i.total_volume.toLocaleString()}</div>
 
                       </div>
                     </td>
@@ -142,7 +169,7 @@ const MobileHoldingTable = () => {
         {!hasMore && (
           <p className="text-center text-gray-400 text-sm pb-10">You’ve reached the end</p>
         )}
-      </div>
+      </article>
     </section>
   );
 };

@@ -6,91 +6,44 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  Tooltip,
-  Filler,
+  Tooltip
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { priceChart } from "@/src/types/PricesType";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Filler
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
 
-interface Props {
-  prices: number[][]; // [[timestamp, price]]
-}
 
-const PriceChart = ({ prices }: Props) => {
-  const labels = prices.map((price) =>
-    new Date(price[0]).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    })
-  );
+
+export default function PriceChart({prices}: priceChart) {
+
+  const isUp = prices[prices.length - 1][1] >= prices[0][1];
 
   const data = {
-    labels,
+    labels: prices.map(p => new Date(p[0]).toLocaleDateString()),
     datasets: [
       {
-        data: prices.map((price) => price[1]),
-        borderColor: "#22c55e", // green
-        borderWidth: 2,
+        data: prices.map(p => p[1]),
+        borderColor: isUp ? "#22c55e" : "#ef4444",
         tension: 0.4,
-        fill: true,
-        backgroundColor: "rgba(34, 197, 94, 0.08)",
-        pointRadius: 0,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "#22c55e",
-      },
-    ],
+        pointRadius: 0
+      }
+    ]
   };
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
-      mode: "index" as const,
-      intersect: false,
+      intersect: false
     },
     plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        backgroundColor: "#111827",
-        titleColor: "#ffffff",
-        bodyColor: "#e5e7eb",
-        padding: 10,
-        displayColors: false,
-        callbacks: {
-          title: (items: any) => {
-            const index = items[0].dataIndex;
-            const date = new Date(prices[index][0]);
-            return date.toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            });
-          },
-          label: (item: any) =>
-            `$${item.raw.toLocaleString()}`,
-        },
-      },
+      legend: { display: false }
     },
     scales: {
-      x: {
-        ticks: { display: false },
-        grid: { display: false },
-      },
-      y: {
-        ticks: { display: false },
-        grid: { display: false },
-      },
-    },
+      x: { display: false },
+      y: { display: false }
+    }
   };
 
   return (
@@ -98,6 +51,4 @@ const PriceChart = ({ prices }: Props) => {
       <Line data={data} options={options} />
     </div>
   );
-};
-
-export default PriceChart;
+}

@@ -3,8 +3,8 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import { CoinSearchItem } from "@/src/utilities/PricesType";
-import { searchPrices } from "@/src/utilities/PricesApi";
+import { CoinSearchItem } from "@/src/types/PricesType";
+import { searchPrices } from "@/src/apis/PricesApi";
 
 const SearchBox = () => {
   const router = useRouter();

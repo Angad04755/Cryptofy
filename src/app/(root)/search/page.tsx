@@ -1,10 +1,15 @@
-import SearchPage from "@/src/components/search/SearchPage";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
-export const dynamic = "force-dynamic";
+const SearchPage = dynamic(() => import("../../../components/search/SearchPage"));
 
-const Search = () => {
-    return (
+export const Dynamic = "force-dynamic";
+
+function Search () {
+    <Suspense>
+        <Suspense>
         <SearchPage/>
-    )
+        </Suspense>
+    </Suspense>
 }
 export default Search;

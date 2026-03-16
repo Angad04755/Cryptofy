@@ -83,3 +83,7 @@ export type CoinById = {
   };
 };
 
+export type priceChart = {
+ prices: number[][];
+}
+

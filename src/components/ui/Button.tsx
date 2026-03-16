@@ -1,16 +1,12 @@
 import React from "react";
 import { ArrowBigRight } from "lucide-react";
-interface ButtonProps {
-    text: string;
-}
 
-const Button = ({ text }: ButtonProps) => {
+
+const Button = ({ text, classname }: any) => {
     return (
-        <div className="flex items-center gap-1 bg-white text-black px-2 py-1 text-lg w-fit rounded-xl cursor-pointer
-hover:scale-110 hover:bg-black hover:text-white
-transition-all duration-300 active:scale-100">
+        <div className={classname}>
             {text}
-            <ArrowBigRight className="w-5 h-5" />
+            <ArrowBigRight className="w-5 h-5"/>
         </div>
     )
 }
