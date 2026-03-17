@@ -98,7 +98,7 @@ const Hero = () => {
           Monitor prices, analyze trends, stay ahead of the market.
         </p>
         <div className="flex justify-center translate-y-5 md:translate-y-25" onClick={() => router.push("/prices")}>
-        <Button text="View prices" classname="flex items-center gap-1 bg-blue-500 text-black px-2 py-1 text-lg w-fit rounded-xl cursor-pointer
+        <Button text="View prices" classname="flex items-center gap-1 bg-blue-500 text-white px-2 py-1 text-lg w-fit rounded-xl cursor-pointer
 hover:scale-110 hover:bg-white hover:text-black
 transition-all duration-300 active:scale-100"/>
         </div>
