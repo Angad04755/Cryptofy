@@ -85,11 +85,11 @@ const HoldingTable = () => {
       {/* Stylish animated background */}
       <article className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
         <div className="flex justify-center items-center p-2 sticky top-16.5 backdrop-blur-lg">
-        <SelectableButton options={currency_options} selected={currency} onChange={(val) => setCurrency(val)}/>
+        <SelectableButton options={currency_options} selected={currency} onChange={(val: any) => setCurrency(val)}/>
           </div>
 
         {/* 🔒 Sticky Header */}
-        <div className="sticky top-29 z-10 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
+        <div className="sticky top-30 z-10 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
           <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] px-4 md:px-10 py-3">
             <span className="text-left">Coin</span>
             <span className="text-right">Price</span>

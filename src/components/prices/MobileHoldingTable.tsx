@@ -89,7 +89,7 @@ const {data = [], isLoading} = useQuery<Price[]>({
       {/* Stylish futuristic background */}
       <article className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
         <div className="flex justify-center items-center p-2 sticky top-28.5 backdrop-blur-lg"> 
-            <SelectableButton options={currency_options} onChange={(val) => setCurrency(val)} selected={currency}/>
+            <SelectableButton options={currency_options} onChange={(val: any) => setCurrency(val)} selected={currency}/>
         </div>
 
         {/* Sticky Header */}
