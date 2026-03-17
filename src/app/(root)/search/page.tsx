@@ -6,10 +6,12 @@ const SearchPage = dynamic(() => import("../../../components/search/SearchPage")
 export const Dynamic = "force-dynamic";
 
 function Search () {
+    return (
     <Suspense>
         <Suspense>
         <SearchPage/>
         </Suspense>
     </Suspense>
+    )
 }
 export default Search;
