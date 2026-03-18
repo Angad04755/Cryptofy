@@ -17,13 +17,27 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 
 export default function PriceChart({prices}: priceChart) {
 
-  const isUp = prices[prices.length - 1][1] >= prices[0][1];
+  const formatedPrices = prices.map(([timeStamp, price]) => {
+    return (
+      {
+        timeStamp,
+        price,
+      }
+    )
+  })
+
+
+
+  
+
+  const isUp = formatedPrices[formatedPrices.length - 1].price >= formatedPrices[0].price;
 
   const data = {
-    labels: prices.map(p => new Date(p[0]).toLocaleDateString()),
+
+    labels: formatedPrices.map((price) => new Date(price.timeStamp).toLocaleDateString()),
     datasets: [
       {
-        data: prices.map(p => p[1]),
+        data: formatedPrices.map((price) => price.price),
         borderColor: isUp ? "#22c55e" : "#ef4444",
         tension: 0.4,
         pointRadius: 0
