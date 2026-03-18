@@ -6,7 +6,8 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  Tooltip
+  Tooltip,
+  scales
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { priceChart } from "@/src/types/PricesType";
@@ -51,12 +52,10 @@ export default function PriceChart({prices}: priceChart) {
     interaction: {
       intersect: false
     },
-    plugins: {
-      legend: { display: false }
-    },
+    
     scales: {
-      x: { display: false },
-      y: { display: false }
+      x: {display: false},
+      y: {display: false},
     }
   };
 
