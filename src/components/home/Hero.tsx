@@ -3,44 +3,12 @@ import { motion, useAnimationControls } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "../ui/Button";
-interface Particle {
-  size: number;
-  top: number;
-  left: number;
-  xOffset: number;
-  yOffset: number;
-  duration: number;
-}
-
-const NUM_PARTICLES = 150;
 
 const Hero = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    // Prevent scrolling on mount
-  
-    document.body.style.overflow="hidden";
-    // Trigger text animation after hydration
-   
-
-    
-
-    // Cleanup: restore scrolling when component unmounts
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
-   useEffect(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: "instant"
-      })
-    })
-
   return (
-    <section className="relative w-full min-h-screen bg-black flex justify-center overflow-hidden bg-gradient-to-b from-red-300 to-orange-300" style={{animation: "fadeup 0.6s ease-in-out"}}>
+    <section className="relative w-full min-h-screen bg-black flex justify-center md:pt-20 overflow-hidden bg-gradient-to-b from green-800 via-azure to-green-500" style={{animation: "fadeup 0.6s ease-in-out"}}>
       
 
       {/* Centered Content */}
@@ -49,7 +17,7 @@ const Hero = () => {
          <h1 className="text-6xl md:text-8xl font-bold text-white mb-4">
           Track Crypto in Real-Time
         </h1>
-        <p className="text-xl md:text-2xl text-black-400 font-light md:translate-y-10">
+        <p className="text-xl md:text-2xl text-white font-light md:translate-y-10">
           Monitor prices, analyze trends, stay ahead of the market.
         </p>
         <div className="flex justify-center translate-y-5 md:translate-y-25" onClick={() => router.push("/prices")}>

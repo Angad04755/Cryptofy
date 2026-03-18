@@ -4,7 +4,7 @@ import Navbar from "../components/layout/Navbar";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ReactqueryProvider from "../providers/ReactqueryProvider";
-import { Suspense } from "react";
+import Footer from "../components/layout/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,6 +35,7 @@ export default function RootLayout({
         <ReactqueryProvider>
         <Navbar/>
         {children}
+        <Footer/>
         </ReactqueryProvider>
       </body>
     </html>
