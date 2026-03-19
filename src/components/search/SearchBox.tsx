@@ -69,22 +69,23 @@ const SearchBox = () => {
   }
 
   return (
-    <div className="relative w-full max-w-xl">
+    <div className="w-full">
       <form onSubmit={handleSubmit}>
-        <div className="w-full flex items-center gap-3 rounded-xl bg-black px-4 py-3 border border-gray-700 focus-within:ring-2 focus-within:ring-blue-400">
+        <Search size={22} className="absolute text-white mt-[12px] ml-[10px]"/>
+        <div className="w-full flex items-center gap-3 rounded-xl bg-black px-4 py-3 border border-gray-700 focus-within:ring-4 focus-within:ring-white transition-all 0.3s">
           <input
             type="text"
             placeholder="Search coins..."
             value={query}
             onChange={(e) => {handleChange(e.target.value)}}
-            className="w-full bg-transparent text-white placeholder-gray-400 outline-none"
+            className="bg-transparent text-white placeholder-gray-400 outline-none ml-[30px]"
           />
-          <Search size={22} className="text-white" />
+          
         </div>
       </form>
 
       {istyping && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+        <div className="absolute w-fit mt-2 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
           {suggestions.map((item) => (
             <div
               key={item.id}
