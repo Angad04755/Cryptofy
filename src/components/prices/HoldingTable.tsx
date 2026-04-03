@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {SyncLoader} from "react-spinners"
+import { SyncLoader } from "react-spinners"
 import SelectableButton from "../ui/SelectableButton";
 import { useQuery } from "@tanstack/react-query";
 const currency_options = [
@@ -30,13 +30,14 @@ const currency_symbols = new Map<string, string>([
 const HoldingTable = () => {
   const router = useRouter();
   const limit = 20;
-  
-  const [page, setPage] = useState(1);
+
+  const [Page, setPage] = useState(1);
   const [currency, setCurrency] = useState("usd");
   const symbol = currency_symbols.get(currency);
+  const skip = (Page - 1) * limit;
   // Fetch prices
 
-  const {data = [], isLoading} = useQuery<Price[]>({
+  const { data = [], isLoading } = useQuery<Price[]>({
     queryKey: ["Prices", currency],
     queryFn: () => getPrices(currency),
   })
@@ -59,25 +60,36 @@ const HoldingTable = () => {
   // Scroll to top on page change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, [page]);
+  }, [Page]);
 
   const totalPages = Math.ceil(data.length / limit);
-  const start = (page - 1) * limit;
+  const start = (Page - 1) * limit;
   const end = start + limit;
   const allprices = data.slice(start, end);
+  const isLastPage = Page === totalPages;
+
+  const pages = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || i === Page || i === Page - 1 || i === Page + 1) {
+      pages.push(i);
+    } else {
+      pages.push(null);
+    }
+  }
 
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
-        <SyncLoader size={15} color="white"/>
+        <SyncLoader size={15} color="white" />
       </div>
     );
   }
   const handlePrev = () => {
-    setPage(page - 1);
+    setPage((val) => val - 1);
   }
   const handleNext = () => {
-    setPage(page + 1);
+    setPage((val) => val + 1);
   }
 
   return (
@@ -85,8 +97,8 @@ const HoldingTable = () => {
       {/* Stylish animated background */}
       <article className="min-h-screen bg-gradient-to-b from-green-700 via-green-800 to-green-900 text-white">
         <div className="flex justify-center items-center p-2 sticky top-16.5 backdrop-blur-lg">
-        <SelectableButton options={currency_options} selected={currency} onChange={(val: any) => setCurrency(val)}/>
-          </div>
+          <SelectableButton options={currency_options} selected={currency} onChange={(val: any) => setCurrency(val)} />
+        </div>
 
         {/* 🔒 Sticky Header */}
         <div className="sticky top-30 z-10 bg-gray-900/70 backdrop-blur-md text-gray-300 text-xs md:text-lg">
@@ -106,7 +118,7 @@ const HoldingTable = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="px-2 md:px-4 py-4 overflow-x-auto"
         >
-          <table className="min-w-full border-collapse text-gray-300 text-sm md:text-base">
+          <table className="w-full border-collapse text-gray-300 text-sm md:text-base">
             <tbody>
               {allprices.map((i) => {
                 const isUp = i.price_change_percentage_24h >= 0;
@@ -115,7 +127,7 @@ const HoldingTable = () => {
                   <tr
                     key={i.id}
                     className="border-b border-gray-700 transition hover:bg-white/5 cursor-pointer"
-                    onClick={() => {router.push(`coin/${i.id}`)}}
+                    onClick={() => { router.push(`coin/${i.id}`) }}
                   >
                     <td className="px-2 md:px-4 py-3">
                       <div className="grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center gap-2">
@@ -158,26 +170,54 @@ const HoldingTable = () => {
         </motion.div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-center gap-10 pb-5">
+        <div className="flex flex-row items-center gap-4 pb-6 md:flex-row md:justify-center md:gap-10 px-4">
+
+          {/* Prev */}
           <button
             aria-label="Previous page"
-            disabled={page === 1}
+            disabled={Page === 1}
             onClick={handlePrev}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-200 bg-white text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 hover:shadow active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+            className="flex items-center gap-1 md:gap-2 px-1 md:px-4 py-1 rounded-md border border-gray-200 bg-white text-xs md:text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 disabled:opacity-40"
           >
-            <ChevronLeft size={18} />
-            <span>Prev</span>
+            <ChevronLeft size={16} />
           </button>
 
+          {/* Page Numbers */}
+          <div className="flex flex-wrap justify-center gap-1 md:gap-2">
+            {pages.map((page, index) => {
+              if (page === null) {
+                return (
+                  <span key={index} className="px-2 text-gray-300 text-sm">
+                    ...
+                  </span>
+                );
+              }
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => setPage(page)}
+                  className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm transition cursor-pointer ${Page === page
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                    }`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Next */}
           <button
             aria-label="Next page"
-            disabled={page === totalPages}
+            disabled={Page === totalPages}
             onClick={handleNext}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-200 bg-white text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 hover:shadow active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+            className="flex items-center gap-1 md:gap-2 px-1 md:px-4 py-1 rounded-md border border-gray-200 bg-white text-xs md:text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 disabled:opacity-40"
           >
-            <span>Next</span>
-            <ChevronRight size={18} />
+            <ChevronRight size={16} />
           </button>
+
         </div>
 
       </article>

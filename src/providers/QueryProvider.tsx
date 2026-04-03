@@ -1,6 +1,6 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-function ReactqueryProvider (props: any) {
+function QueryProvider (props: any) {
 
     const queryClient = new QueryClient()
     return (
@@ -10,4 +10,4 @@ function ReactqueryProvider (props: any) {
     )
 }
 
-export default ReactqueryProvider;
+export default QueryProvider;
