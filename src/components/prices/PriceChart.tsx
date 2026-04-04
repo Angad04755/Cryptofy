@@ -7,56 +7,69 @@ import {
   PointElement,
   LineElement,
   Tooltip,
-  scales
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { priceChart } from "@/src/types/PricesType";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
 
+type PriceChartProps = {
+  prices: number[][];
+  livePrice?: number;
+};
 
+export default function PriceChart({ prices, livePrice }: PriceChartProps) {
+  const formattedPrices = prices.map(([timeStamp, price]) => ({
+    timeStamp,
+    price,
+  }));
 
-export default function PriceChart({prices}: priceChart) {
+  const chartPrices =
+    livePrice && formattedPrices.length > 0
+      ? [
+          ...formattedPrices.slice(0, -1),
+          {
+            timeStamp: Date.now(),
+            price: livePrice,
+          },
+        ]
+      : formattedPrices;
 
-  const formatedPrices = prices.map(([timeStamp, price]) => {
-    return (
-      {
-        timeStamp,
-        price,
-      }
-    )
-  })
+  if (chartPrices.length === 0) {
+    return <div className="h-64 w-full" />;
+  }
 
-
-
-  
-
-  const isUp = formatedPrices[formatedPrices.length - 1].price >= formatedPrices[0].price;
+  const isUp =
+    chartPrices[chartPrices.length - 1].price >= chartPrices[0].price;
 
   const data = {
-
-    labels: formatedPrices.map((price) => new Date(price.timeStamp).toLocaleDateString()),
+    labels: chartPrices.map((item) =>
+      new Date(item.timeStamp).toLocaleDateString()
+    ),
     datasets: [
       {
-        data: formatedPrices.map((price) => price.price),
+        data: chartPrices.map((item) => item.price),
         borderColor: isUp ? "#22c55e" : "#ef4444",
         tension: 0.4,
-        pointRadius: 0
-      }
-    ]
+        pointRadius: 0,
+      },
+    ],
   };
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
-      intersect: false
+      intersect: false,
     },
-    
     scales: {
-      x: {display: false},
-      y: {display: false},
-    }
+      x: { display: false },
+      y: { display: false },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
 
   return (
