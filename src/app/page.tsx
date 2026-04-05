@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Hero from "../../../components/home/Hero";
+import Hero from "../components/home/Hero";
 const Homepage = () => {
     return (
         <>
