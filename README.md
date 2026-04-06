@@ -12,7 +12,8 @@ A responsive and performance-focused web application that displays real-time cry
 - WebSockets
 - Git
 
+---
+
 # Live Demo
 
 https://cryptofy-next-web-app.vercel.app/
-
