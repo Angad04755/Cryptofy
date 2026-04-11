@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { CoinById } from "@/src/types/PricesType";
+import { CoinById } from "../prices/types";
 import { getCoinbyId, getCoinMarketChart } from "@/src/apis/PricesApi";
 import PriceChart from "./PriceChart";
 import { motion } from "framer-motion";
