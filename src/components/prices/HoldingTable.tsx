@@ -9,7 +9,7 @@ import { SyncLoader } from "react-spinners";
 import { useQuery } from "@tanstack/react-query";
 import SelectableButton from "../ui/SelectableButton";
 import { getPrices } from "@/src/apis/PricesApi";
-import { Price } from "@/src/types/PricesType";
+import { Price } from "../prices/types";
 
 const CURRENCY_OPTIONS = [
   { label: "USD", value: "usd" },
@@ -67,7 +67,6 @@ const HoldingTable = () => {
         if (!res.ok) throw new Error("Failed to fetch Binance exchange info");
         return res.json();
       },
-      staleTime: 1000 * 60 * 30,
     });
 
   const binanceSymbols = useMemo(() => {
@@ -185,7 +184,7 @@ const HoldingTable = () => {
         />
       </div>
 
-      <div className={`${wsFailed ? "text-red-200" : "text-green-200"} z-200 sticky top-42 md:top-30 backdrop-blur-xl bg-black/20 px-4 py-2 text-center text-xs md:text-sm`}>
+      <div className={`${wsFailed ? "text-red-200" : "text-green-200"} z-10 sticky top-42 md:top-30 backdrop-blur-xl bg-black/20 px-4 py-2 text-center text-xs md:text-sm`}>
         {wsFailed ? "connecting..." : "connected"}
       </div>
 

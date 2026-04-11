@@ -3,7 +3,7 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import { CoinSearchItem } from "@/src/types/PricesType";
+import { CoinSearchItem } from "../search/types"
 import { searchPrices } from "@/src/apis/PricesApi";
 
 const SearchBox = () => {
@@ -85,7 +85,7 @@ const SearchBox = () => {
       </form>
 
       {istyping && suggestions.length > 0 && (
-        <div className="absolute w-fit mt-2 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+        <div className="absolute w-fit mt-2 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-100">
           {suggestions.map((item) => (
             <div
               key={item.id}

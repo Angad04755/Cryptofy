@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 export type Price = {
     id: string;
     name: string;
@@ -11,15 +9,7 @@ export type Price = {
     total_volume: number;
 }
 
-export type CoinSearchItem = {
-  id: string;
-  name: string;
-  api_symbol: string;
-  symbol: string;
-  market_cap_rank: number | null;
-  thumb: string;
-  large: string;
-}
+
 
 export type CoinById = {
   id: string;
