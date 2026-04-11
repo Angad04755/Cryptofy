@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CoinSearchItem } from "@/src/types/PricesType";
+import { CoinSearchItem } from "../search/types"
 import {searchPrices} from "@/src/apis/PricesApi";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
